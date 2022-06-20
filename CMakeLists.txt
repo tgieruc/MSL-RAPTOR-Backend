@@ -1,22 +1,25 @@
 cmake_minimum_required( VERSION 3.12 )
+project( msl_raptor )
+
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 
-project( msl-raptor-backend )
-set( INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include" )
+
+set( INCLUDE_DIR "${PROJECT_SOURCE_DIR}/src/include" )
 
 set( CMAKE_CXX_STACK_SIZE "10000000" )
 set( CMAKE_CXX_STANDARD 11 )
-set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" )
+set( CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/cmake_modules" )
 
 if( NOT CMAKE_BUILD_TYPE )
   set( CMAKE_BUILD_TYPE Release )
 endif()
 
-set( PROJ_NAME "SR-UKF" )
-set( OUTPUT_NAME "msl-raptor-example" )
+set( PROJ_NAME "msl_raptor" )
+set( OUTPUT_NAME "msl_raptor" )
 
 include( CheckCXXCompilerFlag )
 CHECK_CXX_COMPILER_FLAG( "-std=c++11" COMPILER_SUPPORTS_CXX11 )
@@ -59,6 +62,24 @@ if (OPENMP_FOUND)
 endif()
 
 
+find_package(catkin REQUIRED)
+
+find_package(catkin REQUIRED COMPONENTS
+        roscpp
+        angledbox_msgs
+        std_msgs
+        geometry_msgs
+        tf2
+)
+
+
+catkin_package(
+        INCLUDE_DIRS src/include
+        LIBRARIES ${PROJECT_NAME}
+        CATKIN_DEPENDS roscpp
+        DEPENDS eigen opencv)
+
+
 
 message(STATUS "OpenCV library status:")
 message(STATUS "    version: ${OpenCV_VERSION}")
@@ -77,28 +98,28 @@ include_directories(
   ${EIGEN3_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${INCLUDE_DIR}
+  ${catkin_INCLUDE_DIRS}
   )
+
+
 
 set(
   SOURCES
-  msl-raptor-example.cpp
+    src/msl_raptor.cpp
 )
 
 set(
   HEADERS
-  include/UKF.h
-  include/msl_raptor_backend.h
+  src/include/UKF.h
+  src/include/msl_raptor_backend.h
 )
 
 add_executable( ${PROJ_NAME} ${SOURCES} ${HEADERS} )
-set_target_properties( ${PROJ_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_NAME} )
-# target_link_libraries(main ${OpenCV_LIBS})
 
-if ( MSVC )
-    set_property(TARGET ${PROJ_NAME} APPEND PROPERTY LINK_FLAGS /DEBUG)
-else ()
-    target_link_libraries( ${PROJ_NAME} -pthread ${OpenCV_LIBS} OpenMP::OpenMP_CXX)
-endif ( MSVC )
+
+set_target_properties( ${PROJ_NAME} PROPERTIES OUTPUT_NAME ${OUTPUT_NAME} )
+
 
 # Create source group for headers
 source_group( "Header Files" FILES ${HEADERS} )
+target_link_libraries(msl_raptor ${OpenCV_LIBS}  ${catkin_LIBRARIES})

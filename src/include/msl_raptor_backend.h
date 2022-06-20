@@ -78,7 +78,7 @@ namespace msl_raptor_backend
     }
 
     void init(const cv::Mat &camera_matrix_in,
-              const Eigen::Affine3f &extrinsics,
+              const  Eigen::Affine3f &extrinsics,
               const cv::Mat &dist_coeffs_in)
     {
       cv::Mat rvec(1, 3, CV_32F);

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="ns" default="/" />
+    <group ns="$(arg ns)">
+        <rosparam command="load" file="$(find msl_raptor)/config/msl_raptor.yaml" />
+        <node name="msl_raptor_node" pkg="msl_raptor" type="msl_raptor" output="screen"/>
+    </group>
+
+</launch>
