@@ -1,17 +1,14 @@
 #include "msl_raptor_backend.h"
-#include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include <Eigen/Core>
-#include <Eigen/Dense>
 #include <chrono>
 #include <iostream>
-#include <opencv2/core/eigen.hpp>
-#include <type_traits>
+
 #include "ros/ros.h"
+#include <std_msgs/Float32.h>
 #include <angledbox_msgs/AngledBox.h>
 #include <angledbox_msgs/AngledBoxArray.h>
 #include <tf2_msgs/TFMessage.h>
-#include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/PoseArray.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <csignal>
@@ -37,6 +34,7 @@ public:
 private:
     ros::Publisher pose_pub;
     ros::Publisher tf_pub;
+    ros::Publisher time_pub;
     ros::Subscriber angled_box_sub;
     msl_raptor_backend::CameraParams cam_params;
     msl_raptor_backend::ObjParams obj_params;
@@ -130,6 +128,7 @@ void MslRaptorNode::spin(ros::NodeHandle *nh) {
     ros::Subscriber subscriber =  nh->subscribe("multi_tracker/angledbox_array", 10, &MslRaptorNode::angledBoxCallback, this);
     this->pose_pub = nh->advertise<geometry_msgs::PoseArray>("msl_raptor/pose", 1000);
     this->tf_pub = nh->advertise<tf2_msgs::TFMessage>("tf", 1000);
+    this->time_pub = nh->advertise<std_msgs::Float32>("msl_raptor/time", 1000);
 
     while (ros::ok()) {
         // wait for new bounding box
@@ -137,6 +136,7 @@ void MslRaptorNode::spin(ros::NodeHandle *nh) {
             ros::spinOnce();
         }
         this->new_box = false;
+        std::chrono::time_point<std::chrono::steady_clock> t0 = std::chrono::steady_clock::now();
         std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
         std::chrono::duration<double> dt = now - this->last_box_time;
         this->last_box_time = now;
@@ -151,7 +151,7 @@ void MslRaptorNode::spin(ros::NodeHandle *nh) {
                 drone.msl_raptor_ukf.update(dt.count(), drone.angled_box);
                 drone.msl_raptor_state = drone.msl_raptor_ukf.getState();
             }
-            if (this->verbose == 1){
+            if (this->verbose == true){
                 std::cout << "The new pose of id " << drone.id << " is " << std::endl
                           << drone.msl_raptor_ukf.stateToPose(drone.msl_raptor_state) << "\n\n";
             }
@@ -159,7 +159,7 @@ void MslRaptorNode::spin(ros::NodeHandle *nh) {
 
             geometry_msgs::TransformStamped transform;
             geometry_msgs::Pose pose;
-            transform.child_frame_id = "quad89";
+            transform.child_frame_id = "msl_raptor";
             transform.transform.translation.x = drone.msl_raptor_state(0);
             transform.transform.translation.y = drone.msl_raptor_state(1);
             transform.transform.translation.z = drone.msl_raptor_state(2);
@@ -178,7 +178,13 @@ void MslRaptorNode::spin(ros::NodeHandle *nh) {
             pose.orientation.w = drone.msl_raptor_state(11);
             pose_array.poses.push_back(pose);
         }
+        now = std::chrono::steady_clock::now();
+        std::chrono::duration<double> inf_time = now - t0;
 
+        float inf_time_f = inf_time.count();
+        std_msgs::Float32 inf_time_ros;
+        inf_time_ros.data = inf_time_f;
+        this->time_pub.publish(inf_time_ros);
         this->pose_pub.publish(pose_array);
         this->tf_pub.publish(tf_array);
     }

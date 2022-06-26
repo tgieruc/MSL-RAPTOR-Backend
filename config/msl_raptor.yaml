@@ -1,14 +1,16 @@
 # Camera parameters
-msl_raptor/camera_matrix: [740.674597, 0.0, 634.871364, 0.0, 745.717642, 351.423861, 0.0, 0.0, 1.0]
+msl_raptor/camera_matrix: [740.674597, 0.0, 634.871364,
+                           0.0, 745.717642, 351.423861,
+                           0.0, 0.0, 1.0]
 msl_raptor/rvec : [-1.20919958,1.20919958,-1.20919958]
 #msl_raptor/rvec : [0,0,0]
 msl_raptor/tvec: [0, 0, 0]
 msl_raptor/dist_coeffs: [0, 0, 0, 0]
 
 # Object parameters
-msl_raptor/sigma: [0.5, 0.5, 0.5,
+msl_raptor/sigma: [0.005, 0.005, 0.005,
                     0.0000000005, 0.00000005, 0.00000005,
-                    0.5, 0.5, 0.5,
+                    0.005, 0.005, 0.005,
                     0.00005, 0.00005, 0.0005]
 msl_raptor/process_noise: [0.000002, 0.0000002, 0.0000002,
                             0.0000001, 0.000000001, 0.000001,
@@ -17,13 +19,13 @@ msl_raptor/process_noise: [0.000002, 0.0000002, 0.0000002,
                           
 msl_raptor/meas_noise: [0.5, 0.5, 0.5, 0.5, 2]
 msl_raptor/object_whl: [0.42,  0.15, 0.42]
-msl_raptor/size_scale: 0.45
+msl_raptor/size_scale: 0.55
 msl_raptor/verbose: 1
 
 # optimization parameters
 /msl_raptor/momentum: 0.9
 /msl_raptor/max_steps: 500
-/msl_raptor/conv_steps: 4
+/msl_raptor/conv_steps: 3.4
 /msl_raptor/period_lower_lr: 20
 /msl_raptor/bb_init_step_size: [0.001, 0.001, 0.01, 0.001, 0.001, 0.001]
 /msl_raptor/bb_init_lr: [0.0005, 0.0005, 0.0001, 0.00005, 0.00005, 0.00005]

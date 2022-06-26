@@ -4,7 +4,7 @@
     <version>0.1.0</version>
 
     <description>An implementation of MSL-RAPTOR</description>
-    <maintainer email="theo.gieruc@epfl.ch">Théo Gieruc</maintainer>
+    <maintainer email="theo.gieruc@gmail.com">Théo Gieruc</maintainer>
     <license>GPL</license>
 
     <buildtool_depend>catkin</buildtool_depend>
@@ -12,6 +12,8 @@
 
     <build_depend>roscpp</build_depend>
     <build_depend>angledbox_msgs</build_depend>
+    <build_depend>tf2_msgs</build_depend>
+    <build_depend>geometry_msgs</build_depend>
 
 
     <build_export_depend>roscpp</build_export_depend>
@@ -19,6 +21,8 @@
 
     <exec_depend>roscpp</exec_depend>
     <exec_depend>angledbox_msgs</exec_depend>
+    <exec_depend>tf2_msgs</exec_depend>
+    <exec_depend>geometry_msgs</exec_depend>
 
 
 </package>
