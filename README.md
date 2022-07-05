@@ -6,6 +6,8 @@ This implementation is based on [MSL-RAPTOR-Backend by Benjamin Ramtoula](https:
 
 [multi_tracker](https://github.com/tgieruc/multi_tracker) is the frontend and [angledbox_msgs](https://github.com/tgieruc/angledbox_msgs) is the message type for communication of the angled bounding box arrays.
 
+The documentation for the different parameters can be found in the  [original project](https://github.com/bramtoula/MSL-RAPTOR-Backend).
+
 # Citation
 
 If you find this work helpful, please consider citing the original paper.
