@@ -66,7 +66,7 @@ find_package(catkin REQUIRED)
 
 find_package(catkin REQUIRED COMPONENTS
         roscpp
-        angledbox_msgs
+        multi_tracker_msgs
         std_msgs
         geometry_msgs
         tf2

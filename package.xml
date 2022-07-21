@@ -11,7 +11,7 @@
 
 
     <build_depend>roscpp</build_depend>
-    <build_depend>angledbox_msgs</build_depend>
+    <build_depend>multi_tracker_msgs</build_depend>
     <build_depend>tf2_msgs</build_depend>
     <build_depend>geometry_msgs</build_depend>
 
@@ -20,7 +20,7 @@
 
 
     <exec_depend>roscpp</exec_depend>
-    <exec_depend>angledbox_msgs</exec_depend>
+    <exec_depend>multi_tracker_msgs</exec_depend>
     <exec_depend>tf2_msgs</exec_depend>
     <exec_depend>geometry_msgs</exec_depend>
 

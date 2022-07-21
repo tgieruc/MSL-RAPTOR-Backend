@@ -4,7 +4,7 @@ This repository contains a C++ ROS implementation of the back-end of [MSL-RAPTOR
 
 This implementation is based on [MSL-RAPTOR-Backend by Benjamin Ramtoula](https://github.com/bramtoula/MSL-RAPTOR-Backend).
 
-[multi_tracker](https://github.com/tgieruc/multi_tracker) is the frontend and [angledbox_msgs](https://github.com/tgieruc/angledbox_msgs) is the message type for communication of the angled bounding box arrays.
+[multi_tracker](https://github.com/tgieruc/multi_tracker) is the frontend and [multi_tracker_msgs](https://github.com/tgieruc/multi_tracker_msgs) is the message type for communication of the angled bounding box arrays.
 
 The documentation for the different parameters can be found in the  [original project](https://github.com/bramtoula/MSL-RAPTOR-Backend).
 

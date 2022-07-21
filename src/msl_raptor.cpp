@@ -6,8 +6,8 @@
 
 #include "ros/ros.h"
 #include <std_msgs/Float32.h>
-#include <angledbox_msgs/AngledBox.h>
-#include <angledbox_msgs/AngledBoxArray.h>
+#include <multi_tracker_msgs/AngledBox.h>
+#include <multi_tracker_msgs/AngledBoxArray.h>
 #include <tf2_msgs/TFMessage.h>
 #include <geometry_msgs/PoseArray.h>
 #include <geometry_msgs/TransformStamped.h>
@@ -43,7 +43,7 @@ private:
 
     std::vector<Drone> drones;
     std::chrono::time_point<std::chrono::steady_clock> last_box_time;
-    void angledBoxCallback(const angledbox_msgs::AngledBoxArray::ConstPtr& msg);
+    void angledBoxCallback(const multi_tracker_msgs::AngledBoxArray::ConstPtr& msg);
     void setObjParams(ros::NodeHandle *nh);
     void setCameraParams(ros::NodeHandle *nh);
 };
@@ -204,8 +204,11 @@ void mySigintHandler(int sig){
 }
 
 
-void MslRaptorNode::angledBoxCallback(const angledbox_msgs::AngledBoxArray::ConstPtr& msg){
-    std::vector<angledbox_msgs::AngledBox> angled_box_vec;
+void MslRaptorNode::angledBoxCallback(const /* A message type that is used to communicate the bounding
+box information between the multi_tracker and the
+msl_raptor. */
+multi_tracker_msgs::AngledBoxArray::ConstPtr& msg){
+    std::vector<multi_tracker_msgs::AngledBox> angled_box_vec;
     angled_box_vec.assign(std::begin(msg->angledbox_array), std::end(msg->angledbox_array));
     std::vector<int> drone_id;
     for (auto & drone_msg : angled_box_vec){
